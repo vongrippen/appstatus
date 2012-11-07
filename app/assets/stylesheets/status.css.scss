@@ -1,0 +1,462 @@
+@import "base";
+@import "jquery.ui";
+
+/* Typography */
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0em;
+  margin-bottom: .25em;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.2em;
+}
+
+h2 {
+  font-size: 1.6em;
+}
+
+h3 {
+  font-size: 1.4em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+p {
+  margin-bottom: 1em;
+  line-height: 1.3;
+}
+
+a {
+  color: $link-color;
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Helper styles */
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.hidden {
+  display: none;
+}
+
+.indicator {
+  border: 2px solid $accent-color;
+  border-right-color: darken($accent-color, 40%);
+  border-bottom-color: darken($accent-color, 40%); 
+  @include single-box-shadow(rgba(255, 255, 255, 0.15), 1px, 0.8em, 1px, 0, inset);
+}
+
+/* Layout */
+
+body {
+  background: #FFF;
+  color: #1B1B1B;
+  font-family: Helvetica, Arial, Helvetica, sans-serif;
+}
+
+.container {
+  @include column(20, true);
+  float: none;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+}
+
+#wrapper {
+  background: $wrapper-color;
+  overflow: hidden;
+  @include trailer;
+  @include leader;
+}
+
+#header {
+  @include leader;
+  overlow: hidden;
+  
+  h1 {
+    @include adjust-font-size-to(25px, 2);
+    
+    a {
+      color: darken($wrapper-color, 5%);
+    }
+  }
+}
+
+#footer {
+  padding: 0;
+  margin: 0;
+  @include adjust-font-size-to(11px);
+  text-align: center;
+}
+
+#logo a:hover {
+  text-decoration: none;
+}
+
+.block {
+  background: $base-shade-color;
+  overflow: hidden;
+  color: $white-color;
+  margin: 20px;
+  border-bottom: 2px solid darken($base-shade-color, 3%);
+  
+  .header {
+    background: darken($base-shade-color, 5%);
+    color: $label-color;
+    padding: 6px 16px;
+    overflow: hidden;
+    @include adjust-font-size-to(12px);
+    text-align: left;
+    text-transform: uppercase;
+  }
+  
+  .body {
+    margin: 0 2px;
+  }
+  
+  a {
+    color: lighten($link-color, 5%);
+  }
+}
+
+#nav {
+  float: right;
+  @include inline-block-list(1px);
+  
+  a {
+    padding: 3px 4px;
+    font-weight: bold;
+    
+    &:hover {
+      background: $link-color;
+      color: $white-color;
+      text-decoration: none;
+    }
+  }
+  
+  .active {    
+    a {
+      color: $base-font-color;
+      background: $light-gray-color;
+    }
+  } 
+}
+
+#last-updated, #uptime-period {
+  float: left;
+  
+  .datetime {
+    color: lighten($label-color, 20%);
+  }
+}
+
+/* Datepicker */
+
+#uptime-period {
+  span {
+    display: inline-block;
+    position: relative;
+    margin: 0 10px 0 5px;
+  }
+
+  .datepicker {
+    border: none;
+    background: lighten($base-shade-color, 10%);
+    color: white;
+    display: inline-block;
+    width: 85px;
+    margin-left: 5px;
+    padding: 4px;
+    margin: 0;
+  }
+
+  .ui-datepicker-trigger {
+    @include opacity(0.6);
+    cursor: pointer;
+    top: 2px;
+    right: 2px;
+    position: absolute;
+    padding: 1px;
+  
+    &:hover {
+      @include opacity(0.8);
+    } 
+  }
+}
+
+/* Statuses */
+
+.status {
+  @extend .indicator;
+  background: $accent-color;
+  text-align: right;
+  padding: 5px;
+  color: darken($accent-color, 10%);
+  
+  &.up {
+    background: $up-color;
+    @include background(linear-gradient(color-stops($up-color, darken($up-color, 10%))));
+    color: $white-color;
+  }
+  
+  &.warning {
+    background: $warning-color;
+    @include background(linear-gradient(color-stops($warning-color, darken($warning-color, 10%))));
+    color: $white-color;
+  }
+    
+  &.down {
+    background: $down-color;
+    @include background(linear-gradient(color-stops($down-color, darken($down-color, 10%))));
+    color: $white-color;
+  }
+  
+  &.uptime {
+    color: $white-color;
+  }
+}
+
+#service-status, #service-uptime {
+  overflow: hidden;
+  @include background(linear-gradient(color-stops(lighten($base-shade-color, 5%), $base-shade-color)));
+  border-top: 1px solid lighten($base-shade-color, 10%);
+   
+  .name {
+    float: left;
+    
+    h1 {
+      @include leader(0.5);
+      @include trailer(0.5);
+      @include adjust-font-size-to(40px, 2);
+      font-weight: normal;
+      margin-left: 15px;
+      @include single-text-shadow(rgba(0, 0, 0, 0.8), 1px, 1px, 1px);
+    }
+  }
+  
+  .statuses {
+    @include column(5);
+    float: right;
+    margin: 10px 0;
+    
+    dl {
+      float: right;
+      margin-right: 12px;
+      width: 63px;
+      
+      dt {
+        @include adjust-font-size-to(11px);
+        color: $label-color;
+        text-transform: uppercase;
+        text-align: right;
+      }
+      
+      dd {
+        @include adjust-font-size-to(34px, 1.8);
+        padding: 0 5px;
+        text-align: right;
+      }
+    }
+  }
+}
+
+#service-status {
+  &.service-up {
+    background: $up-color;
+    @include background(linear-gradient(color-stops($up-color, $up-color, darken($up-color, 10%))));
+    border-top: 1px solid $up-color;
+
+    h1 {
+      @include single-text-shadow(rgba(0, 0, 0, 0.5), -1px, -1px, 1px);
+    }
+  }
+  
+  &.service-warning {
+    background: $warning-color;
+    @include background(linear-gradient(color-stops(darken($warning-color, 5%), darken($warning-color, 15%))));
+    border-top: 1px solid $warning-color;
+    
+    h1 {
+      @include single-text-shadow(rgba(0, 0, 0, 0.5), -1px, -1px, 1px);
+    }
+  }
+  
+  &.service-down {
+    background: $down-color;
+    @include background(linear-gradient(color-stops(darken($down-color, 5%), darken($down-color, 15%))));
+    border-top: 1px solid $down-color;
+    
+    h1 {
+      @include single-text-shadow(rgba(0, 0, 0, 0.5), -1px, -1px, 1px);
+    }
+  }
+}
+
+
+#downtime-message {
+  &.service-warning {
+    border-top: 1px solid darken($warning-color, 20%);
+  }
+  
+  &.service-down {
+    border-top: 1px solid darken($down-color, 20%);
+  }
+  @include adjust-font-size-to(14px, 0.8);
+  padding: 10px 15px;
+  
+  p {
+    margin: 3px 0;
+  }
+  
+  strong {
+    font-weight: normal;
+  }
+  
+  ul, ol {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    
+    li {
+      margin: 0;
+      padding: 0;
+    }
+  }
+  
+  a {
+    color: darken($light-gray-color, 5%);
+    text-decoration: underline;
+    
+    &:hover {
+      color: $link-color;
+    }
+  }
+  
+  .meta {
+    margin: 10px 0 0 0;
+    padding-top: 6px;
+    @include adjust-font-size-to(13px);
+    color: darken($light-gray-color, 5%);
+    border-top: 2px solid lighten($base-shade-color, 5%);
+
+    span {
+      color: $label-color;
+    }
+  }
+}
+
+#nodes-list {
+  .node {
+    overflow: hidden;
+    padding: 10px 15px;
+    border-top: 1px solid lighten($base-shade-color, 10%);
+    margin-top: 1px;
+    border-bottom: 1px solid darken($base-shade-color, 3%);
+    @include background(linear-gradient(color-stops(lighten($base-shade-color, 5%), $base-shade-color)));
+    @include single-text-shadow(rgba(0, 0, 0, 0.8), 1px, 1px, 1px);
+    line-height: 1.6em;
+  }
+  
+  .name {
+    a {
+      color: $white-color;
+    }
+  }
+  
+  .node-status {
+    float: right;
+    text-align: right;
+    margin-right: 0;
+    overflow: hidden;
+    background: darken($base-shade-color, 5%);
+    @include background(linear-gradient(color-stops(darken($base-shade-color, 15%), darken($base-shade-color, 5%))));
+    
+    &.wide {
+      width: 102px;
+    }
+  }
+  
+  .status {
+    display: block;
+    text-indent: -999.9em;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    @include adjust-font-size-to(10px, 0.5);
+    float: right;
+  }
+  
+  .uptime {
+    @extend .indicator;
+    display: block;
+    height: 20px;
+    padding: 0 4px;
+    line-height: 22px;
+    width: 92px;  
+    position: absolute;
+    margin-top: -22px;
+  }
+  
+  .progress {
+    background: $uptime-color;
+    @include background(linear-gradient(color-stops($uptime-color, $uptime-color, darken($uptime-color, 10%))));
+    width: 100px;
+    height: 22px;
+    display: block;
+    margin-left: 2px;
+  }
+}
+
+#service-uptime {
+  .statuses {
+    dl {
+      width: 160px;
+    }
+  }
+  
+  .total-uptime {
+    dd {
+      @include single-text-shadow(rgba(0, 0, 0, 0.8), 1px, 1px, 1px);
+    }
+  }
+}
+
+.error-msg {
+  margin: 10px 20px 0 20px;
+  display: block;
+}
+
+.loader {
+  padding: 40px;
+  text-align: center;
+}
+
+#loader {
+  display: none;
+  position: absolute;
+  top: 25px;
+  right: 10px;
+  z-index: 99999;
+}

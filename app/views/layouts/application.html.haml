@@ -1,0 +1,19 @@
+!!! 5
+%head
+  %meta{ :charset => "utf-8" }/
+  %meta{'http-equiv'=>"Content-Language", :content=>"en-us"}/
+  %title= @title || APP_CONFIG["service_name"] + " " + APP_CONFIG['title']
+  = stylesheet_link_tag 'application'
+  = javascript_include_tag 'application'
+%body
+  .container
+    #loader
+    #header
+      %h1#logo
+        %a{:href => '/'}= APP_CONFIG['title']
+    #body
+      #wrapper
+        %input{:type => 'hidden', :id => 'app-name', :value => APP_CONFIG["service_name"]}
+        = yield
+    #footer
+      %p#legal= "&copy; #{Time.now.strftime('%Y')} #{APP_CONFIG["service_name"]}"

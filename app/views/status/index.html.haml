@@ -1,0 +1,38 @@
+#overview.block
+  .header
+    #last-updated
+      Last updated:
+      %span.datetime= Time.now
+  .body
+    #service-status{:class => @service_status}
+      .name
+        %h1
+          = APP_CONFIG[:service_name]
+          - if @service_status == 'service-up'
+            is up
+          - elsif @service_status == 'service-warning'
+            has warnings
+          - else
+            is down
+    - if @service_status != 'service-up' and @message
+      #downtime-message{:class => 'service-up'}
+        foo
+        %p.meta
+          %span
+            Published by:
+            %strong= @message.author.name
+            %span on
+            = @message.updated_at
+            %a{:href => '#'}View message
+        
+#nodes-list.block
+  .header
+    %span.name NODES
+    %span.right STATUS
+  .body
+    #nodes
+      - @services.each do |service|
+        .node
+          %span.name= link_to service.name, service.url
+          %span.node-status
+            %span.status{:class => service.status}
